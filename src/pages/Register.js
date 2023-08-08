@@ -1,6 +1,7 @@
 import axios from "axios";
 import React, { useState } from "react";
 import { API } from "../const/endpoint";
+import Navbar from "./Navbar";
 
 const Register = () => {
     const [email, setEmail] = useState('');
@@ -33,6 +34,7 @@ const Register = () => {
 
     return (
         <div>
+            <Navbar />
             <h1>Register Admin Page</h1>
             <p>Enter Your E-mail</p>
             <input onChange={handleEmail} placeholder="eg@gmail.com" />
