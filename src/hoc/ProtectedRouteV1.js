@@ -24,6 +24,7 @@ const ProtectedRouteV1 = () => {
     console.log('loading')
     if(loading) {
         return 'Loadinggg'
+        
     }
 
     // Part 3
