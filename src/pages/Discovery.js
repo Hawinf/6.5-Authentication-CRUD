@@ -10,6 +10,10 @@ const Discovery = () => {
     // console.log(getCars, 'this is GetCars')
     
     useEffect(() => {
+        reload();
+   },[])
+
+   const reload = () => {
         const token = localStorage.getItem('token');
 
         const config = {
@@ -21,11 +25,29 @@ const Discovery = () => {
         axios
             .get(API.LISTCARS, config)
             .then((res) => {
-                // console.log(res)
+                console.log(res)
                 setGetCars(res.data.cars)
             })
             .catch((err) => console.log(err))
-   },[])
+   }
+
+   const handleDelete = (id) => {
+        const token = localStorage.getItem('token');
+
+        const config = {
+            headers: {
+                access_token: token
+            }
+        }
+
+        axios
+            .delete(`https://bootcamp-rent-cars.herokuapp.com/admin/car/${id}`, config)
+            .then((res) => {
+                // console.log(res)
+                reload()
+            })
+            .catch((err) => console.log(err))
+   }
 
     return (
         <div>
@@ -44,6 +66,14 @@ const Discovery = () => {
                             <h1>{item.name}</h1>
                             <p>{item.price}</p>
                             <p>{item.category}</p>
+                            <div>
+                                <button onClick={() =>handleDelete(item.id)}>Delete</button>
+                                <button>
+                                    <Link to={`/edit/${item.id}`}>
+                                        Edit
+                                    </Link>
+                                </button>
+                            </div>
                         </div>
                     ))
                 )

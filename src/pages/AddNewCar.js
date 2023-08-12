@@ -1,11 +1,14 @@
+import axios from "axios";
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { API } from "../const/endpoint";
 
 const AddNewCar = () => {
     const [name, setName] = useState('');
     const [price, setPrice] = useState('');
     const [category, setCategory] = useState('');
     const [image, setImage] = useState(null);
+    const navigate = useNavigate();
 
     const handleName = (e) => {
         // console.log(e.target.value)
@@ -24,7 +27,28 @@ const AddNewCar = () => {
     }
 
     const handleCreate = () => {
-        
+        const token = localStorage.getItem('token')
+
+        const config = {
+            headers: {
+                access_token : token
+            }
+        }
+
+        const formData = new FormData();
+        formData.append('image', image);
+        formData.append('status', false);
+        formData.append('category', category);
+        formData.append('price', price);
+        formData.append('name', name);
+
+        axios
+            .post(API.POSTCAR, formData, config)
+            .then((res) => {
+                // console.log(res)
+                navigate('/discovery')
+            })
+            .catch((err) => console.log(err.message))
     }
 
     return(
@@ -39,7 +63,7 @@ const AddNewCar = () => {
                     Cancel
                 </Link>
             </button>
-            <button>
+            <button onClick={handleCreate}>
                 <Link>
                     Save
                 </Link>
